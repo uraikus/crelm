@@ -1,6 +1,6 @@
 {
-  "name":"createElement",
-  "main":"createElement.js",
+  "name":"crelm",
+  "main":"crelm.js",
   "author":"Patrick Trester",
   "version":"1.0.0",
   "devDependencies": {
@@ -9,12 +9,12 @@
   },
   "repository": {
     "type" : "git",
-    "url" : "https://github.com/uraikus/createElement.git"
+    "url" : "https://github.com/uraikus/crelm.git"
   },
   "scripts": {
     "test": "jest --coverage"
   },
   "files": [
-    "createElement.js"
+    "crelm.js"
   ]
 }

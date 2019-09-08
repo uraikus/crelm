@@ -1,4 +1,4 @@
-window.createElement = function (elemAttr) {
+window.crelm = function (elemAttr) {
   elemAttr = elemAttr || {}
   if (typeof elemAttr === 'string') return document.createElement(elemAttr)
   let tagName = elemAttr.tagName || 'div'
@@ -13,7 +13,7 @@ window.createElement = function (elemAttr) {
         let textNode = document.createTextNode(child)
         elem.appendChild(textNode)
       } else if (typeof child === 'object') {
-        let childElement = window.createElement(child)
+        let childElement = window.crelm(child)
         elem.appendChild(childElement)
       } else {
         let textNode = document.createTextNode(child.toString())

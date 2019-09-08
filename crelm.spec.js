@@ -1,12 +1,12 @@
 require('browser-env')()
-const createElement = require('./createElement.js')
+const crelm = require('./crelm.js')
 
 beforeEach(() => {
   document.body.innerHTML = ''
 })
 
 test('Create a link:', () => {
-  createElement({
+  crelm({
     tagName: 'a',
     parent: document.body, // An alias for parentElement
     innerHTML: 'Google',
@@ -27,8 +27,8 @@ test('Create a deep clone:', () => {
       test: true
     }
   }
-  let div = createElement({test: myObj, deepClone: true})
-  let div2 = createElement({test: myObj})
+  let div = crelm({test: myObj, deepClone: true})
+  let div2 = crelm({test: myObj})
   expect(div.test.deepTest).toBe(true)
   expect(div2.test.deepTest).toBe(true)
   expect(div.test.deeperClone.test).toBe(true)
@@ -42,12 +42,12 @@ test('Create a deep clone:', () => {
 })
 
 test('Create a bare minimum element:', () => {
-  let div = createElement()
+  let div = crelm()
   expect(div.tagName).toBe('DIV')
 })
 
 test('Create an element with styles:', () => {
-  let div = createElement({
+  let div = crelm({
     style: {
       fontWeight: 'bold'
     }
@@ -56,18 +56,18 @@ test('Create an element with styles:', () => {
 })
 
 test('Create element with a string:', () => {
-  let span = createElement('SPAN')
+  let span = crelm('SPAN')
   expect(span.tagName).toBe('SPAN')
 })
 
 test('Use parentElement instead:', () => {
-  let span = createElement({parentElement: document.body})
+  let span = crelm({parentElement: document.body})
   expect(document.body.children[0]).toBe(span)
 })
 
 test('Create all kinds of children:', () => {
-  let span = createElement({innerHTML: 'I\'m a span'})
-  let div = createElement({
+  let span = crelm({innerHTML: 'I\'m a span'})
+  let div = crelm({
     children: [
       'textNode',
       {innerHTML: 'an Object to be made'},
