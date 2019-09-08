@@ -1,4 +1,4 @@
-createElement
+crelm (createElement)
 ==
 The fully tested browser utility that supers the document.createElement function.
 
@@ -6,17 +6,17 @@ Being exceptionally small, yet makes componentization so much easier!
 
 To get started, in your project's CLI run:
 ```
-npm i createElement
+npm i crelm
 /* or using a <script> tag*/
-<script src="https://combinatronics.com/uraikus/crelm/master/browser/v1.0.2.js"></script>
+<script src="https://combinatronics.com/uraikus/crelm/master/browser/v1.0.js"></script>
 ```
 
-createElement gives the additional capability to utilize the argument as an object:
+crelm gives the additional capability to utilize the argument as an object:
 ```js
 // Example
-import createElement from 'createElement'
+import crelm from 'crelm'
 
-let newLink = (name, href) => createElement({
+let newLink = (name, href) => crelm({
   tagName: 'A',
   parent: document.body, // An alias for parentElement
   innerHTML: name,
@@ -35,8 +35,8 @@ let myObj = {
     test: true
   }
 }
-let div = createElement({test: myObj, deepClone: true}) // Default tagName is "DIV"
-let div2 = createElement({test: myObj})
+let div = crelm({test: myObj, deepClone: true}) // Default tagName is "DIV"
+let div2 = crelm({test: myObj})
 expect(div.test.deepTest).toBe(true)
 expect(div2.test.deepTest).toBe(true)
 expect(div.test.deeperClone.test).toBe(true)
@@ -50,8 +50,8 @@ expect(div2.test.deeperClone.test).toBe(false)
 ```
 Easy DOM tree constructions:
 ```js
-let div = createElement({innerText: 'Hello World!'})
-createElement({
+let div = crelm({innerText: 'Hello World!'})
+crelm({
   children:[
     'a text node', // Creates a textNode
     {tagName: 'span', innerText: 'Greetings'}, // Creates a span,
@@ -62,7 +62,7 @@ createElement({
 Styles will always be deep cloned:
 ```js
 test('Create an element with styles:', () => {
-  let div = createElement({
+  let div = crelm({
     style: {
       fontWeight: 'bold'
     }
