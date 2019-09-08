@@ -2,7 +2,7 @@
   "name":"crelm",
   "main":"crelm.js",
   "author":"Patrick Trester",
-  "version":"1.0.0",
+  "version":"1.0.2",
   "devDependencies": {
     "jest": "^25.0.0",
     "browser-env": "^3.2.6"
