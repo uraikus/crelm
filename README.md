@@ -8,7 +8,7 @@ To get started, in your project's CLI run:
 ```
 npm i createElement
 /* or using a <script> tag*/
-<script src="https://combinatronics.com/uraikus/createElement/blob/master/browser/v1.0.0.js"></script>
+<script src="https://combinatronics.com/uraikus/crelm/master/browser/v1.0.2.js"></script>
 ```
 
 createElement gives the additional capability to utilize the argument as an object:
