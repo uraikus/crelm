@@ -1,4 +1,4 @@
-function createElement (elemAttr) {
+window.createElement = function (elemAttr) {
   elemAttr = elemAttr || {}
   if (typeof elemAttr === 'string') return document.createElement(elemAttr)
   let tagName = elemAttr.tagName || 'div'
@@ -13,7 +13,7 @@ function createElement (elemAttr) {
         let textNode = document.createTextNode(child)
         elem.appendChild(textNode)
       } else if (typeof child === 'object') {
-        let childElement = createElement(child)
+        let childElement = window.createElement(child)
         elem.appendChild(childElement)
       } else {
         let textNode = document.createTextNode(child.toString())
@@ -37,5 +37,3 @@ function createElement (elemAttr) {
     return obj1
   }
 }
-
-module.exports = createElement

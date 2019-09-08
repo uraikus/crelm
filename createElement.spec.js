@@ -46,6 +46,15 @@ test('Create a bare minimum element:', () => {
   expect(div.tagName).toBe('DIV')
 })
 
+test('Create an element with styles:', () => {
+  let div = createElement({
+    style: {
+      fontWeight: 'bold'
+    }
+  })
+  expect(div.style.fontWeight).toBe('bold')
+})
+
 test('Create element with a string:', () => {
   let span = createElement('SPAN')
   expect(span.tagName).toBe('SPAN')
