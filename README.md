@@ -2,7 +2,7 @@ crelm (createElement)
 ==
 The fully tested browser utility that supers the document.createElement function.
 
-Being exceptionally small, yet makes componentization so much easier!
+Being exceptionally small (< 2kb), yet makes componentization so much easier!
 
 To get started, in your project's CLI run:
 ```
@@ -69,4 +69,54 @@ test('Create an element with styles:', () => {
   })
   expect(div.style.fontWeight).toBe('bold')
 })
+```
+Crelm works great with [crease](https://www.npmjs.com/package/crease) for native javascript componentization:
+```js
+import crelm from 'crelm'
+import crease from 'crease'
+
+var createdCSSElement = crease({
+  '#sample': {
+    border: '1px solid black',
+    padding: '5px',
+    boxShadow: '3px 3px 5px black',
+    a: {
+      textDecoration: 'none',
+      color: 'blue',
+      cursor: 'pointer'
+    }
+  }
+})
+
+var createdDOMElement = crelm({
+  id: 'sample',
+  parent: document.body,
+  children: [
+    'My Links:',
+    {tagName: 'a', innerText: 'My Website', href: 'https://<whatever>.me'},
+  ]
+})
+```
+Would equal:
+```html
+<head>
+  <style>
+    #sample {
+      border: 1px solid black;
+      padding: 5px;
+      box-shadow: 3px 3px 5px black;
+    }
+    #sample a {
+      text-decoration: none;
+      color: blue;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="sample">
+    My Links
+    <a href="https://<whatever>.me">My Website</a>
+  </div>
+</body>
 ```

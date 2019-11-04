@@ -2,7 +2,7 @@
   "name":"crelm",
   "main":"crelm.js",
   "author":"Patrick Trester",
-  "version":"1.0.3",
+  "version":"1.0.4",
   "devDependencies": {
     "jest": "^25.0.0",
     "browser-env": "^3.2.6"
@@ -12,7 +12,7 @@
     "url" : "https://github.com/uraikus/crelm.git"
   },
   "scripts": {
-    "test": "jest --coverage"
+    "start": "jest --coverage"
   },
   "files": [
     "crelm.js"
