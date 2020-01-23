@@ -1,7 +1,7 @@
 function crelm (elemAttr) {
   elemAttr = elemAttr || {}
   if (typeof elemAttr === 'string') return document.createElement(elemAttr)
-  let tagName = elemAttr.tagName || 'div'
+  let tagName = elemAttr.tagName || elemAttr.tag || 'div'
   let elem = document.createElement(tagName)
   let parent = elemAttr.parentElement  || elemAttr.parent || false
   if (parent && parent.appendChild) parent.appendChild(elem)
@@ -22,7 +22,8 @@ function crelm (elemAttr) {
     }
   }
   for (let key in elemAttr) {
-    if (['parent', 'parentElement', 'tagName', 'deepClone', 'children'].includes[key]) continue
+    if (['parent', 'parentElement', 'tagName', 'tag', 'deepClone', 'children'].indexOf(key) !== -1) continue
+    else if (key === 'clss') elem.className = elemAttr.clss
     else if (key === 'style') deepClone(elem.style, elemAttr.style)
     else if (typeof elemAttr[key] === 'object' && elemAttr.deepClone) elem[key] = deepClone({}, elemAttr[key])
     else elem[key] = elemAttr[key]

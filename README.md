@@ -120,3 +120,9 @@ Would equal:
   </div>
 </body>
 ```
+Abbreviations:
+```
+  tag === tagName
+  parent === parentElement
+  clss === className
+```
