@@ -82,3 +82,33 @@ test('Create all kinds of children:', () => {
   expect(div.children[1]).toBe(span)
   expect(div.childNodes[3].data).toBe('1')
 })
+
+test('Should set innerHTML by changing html:', () => {
+  let div = crelm({html: 'test'})
+  expect(div.innerHTML).toBe('test')
+})
+
+test('Should retrieve innerHTML by checking html:', () => {
+  let div = crelm({innerHTML: 'test'})
+  expect(div.html).toBe('test')
+})
+
+test('Should set innerText by changing text:', () => {
+  let div = crelm({text: 'test'})
+  expect(div.innerText).toBe('test')
+})
+
+test('Should retrieve innerText by checking text:', () => {
+  let div = crelm({innerText: 'test'})
+  expect(div.text).toBe('test')
+})
+
+test('Should set className by changing clss:', () => {
+  let div = crelm({clss: 'test'})
+  expect(div.className).toBe('test')
+})
+
+test('Should retrieve className by checking clss:', () => {
+  let div = crelm({className: 'test'})
+  expect(div.clss).toBe('test')
+})

@@ -1,21 +1,25 @@
 {
-  "name":"crelm",
-  "main":"crelm.js",
-  "author":"Patrick Trester",
+  "name": "crelm",
+  "main": "crelm.js",
+  "author": "Patrick Trester",
   "license": "MIT",
-  "version":"2.0.0",
+  "version": "3.0.0",
   "devDependencies": {
     "jest": "^25.0.0",
     "browser-env": "^3.2.6"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/uraikus/crelm.git"
+    "type": "git",
+    "url": "https://github.com/uraikus/crelm.git"
   },
   "scripts": {
-    "start": "jest --coverage"
+    "start": "jest --coverage",
+    "build": "uglifyjs crelm.js -o crelm-min.js"
   },
   "files": [
-    "crelm.js"
-  ]
+    "crelm-min.js"
+  ],
+  "dependencies": {
+    "uglify-js": "^3.7.6"
+  }
 }
