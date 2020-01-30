@@ -3,10 +3,11 @@
   "main": "crelm.js",
   "author": "Patrick Trester",
   "license": "MIT",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "devDependencies": {
     "jest": "^25.0.0",
-    "browser-env": "^3.2.6"
+    "browser-env": "^3.2.6",
+    "uglify-js": "^3.7.6"
   },
   "repository": {
     "type": "git",
@@ -18,8 +19,5 @@
   },
   "files": [
     "crelm-min.js"
-  ],
-  "dependencies": {
-    "uglify-js": "^3.7.6"
-  }
+  ]
 }
