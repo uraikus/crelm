@@ -8,7 +8,7 @@ To get started, in your project's CLI run:
 ```
 npm i crelm
 /* or using a <script> tag*/
-<script src="https://combinatronics.com/uraikus/crelm/master/browser/v1.0.js"></script>
+<script src="https://combinatronics.com/uraikus/crelm/master/browser/v3.0.js"></script>
 ```
 
 crelm gives the additional capability to utilize the argument as an object:
@@ -17,14 +17,14 @@ crelm gives the additional capability to utilize the argument as an object:
 import crelm from 'crelm'
 
 let newLink = (name, href) => crelm({
-  tagName: 'A',
+  tag: 'A',
   parent: document.body, // An alias for parentElement
-  innerHTML: name,
+  html: name,
   href: href,
   title: href,
   target: '_blank',
   rel: 'noopener',
-  onclick: function() {console.log(`Clicked: ${this.innerHTML}`)}
+  onclick: function() {console.log(`Clicked: ${this.html}`)}
 })
 ```
 Additionally you can use the deepClone attribute if you want to deep clone objects (doesn't deep clone things like parentElement):
@@ -54,7 +54,7 @@ let div = crelm({innerText: 'Hello World!'})
 crelm({
   children:[
     'a text node', // Creates a textNode
-    {tagName: 'span', innerText: 'Greetings'}, // Creates a span,
+    {tag: 'span', text: 'Greetings'}, // <span>Greetings</span>
     div, // Appends child to element
   ]
 })
@@ -125,4 +125,6 @@ Abbreviations:
   tag === tagName
   parent === parentElement
   clss === className
+  html === innerHTML
+  text === innerText
 ```
