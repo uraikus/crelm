@@ -112,3 +112,9 @@ test('Should retrieve className by checking clss:', () => {
   let div = crelm({className: 'test'})
   expect(div.clss).toBe('test')
 })
+
+test('Should make append a child to a parent by string id:', () => {
+  let parent = crelm({id: 'test', parent: document.body})
+  let child = crelm({parent: 'test'})
+  expect(parent.firstChild).toBe(child)
+})

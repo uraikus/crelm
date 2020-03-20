@@ -18,7 +18,7 @@ import crelm from 'crelm'
 
 let newLink = (name, href) => crelm({
   tag: 'A',
-  parent: document.body, // An alias for parentElement
+  parent: document.body, // a string === document.getElementById(string)
   html: name,
   href: href,
   title: href,
@@ -59,7 +59,7 @@ crelm({
   ]
 })
 ```
-Styles will always be deep cloned:
+Styles and dataset will always be deep cloned:
 ```js
 test('Create an element with styles:', () => {
   let div = crelm({
@@ -93,7 +93,7 @@ var createdDOMElement = crelm({
   parent: document.body,
   children: [
     'My Links:',
-    {tagName: 'a', innerText: 'My Website', href: 'https://<whatever>.me'},
+    {tag: 'a', text: 'My Website', href: 'https://<whatever>.me'},
   ]
 })
 ```
