@@ -29,6 +29,7 @@ function crelm (elemAttr) {
   })
   var parent = elemAttr.parentElement  || elemAttr.parent || false;
   if (parent && parent.appendChild) parent.appendChild(elem);
+  else if (typeof parent === 'string') document.getElementById(parent).appendChild(elem);
   if (elemAttr.children) {
     for (var x = 0; x < elemAttr.children.length; x++) {
       var child = elemAttr.children[x];
@@ -47,7 +48,7 @@ function crelm (elemAttr) {
   }
   for (var key in elemAttr) {
     if (['parent', 'parentElement', 'tagName', 'tag', 'deepClone', 'children'].indexOf(key) !== -1) continue;
-    else if (key === 'style') deepClone(elem.style, elemAttr.style);
+    else if (key === 'style' || key === 'dataset') deepClone(elem[key], elemAttr[key]);
     else if (typeof elemAttr[key] === 'object' && elemAttr.deepClone) elem[key] = deepClone({}, elemAttr[key]);
     else elem[key] = elemAttr[key];
   }

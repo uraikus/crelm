@@ -3,7 +3,7 @@
   "main": "crelm.js",
   "author": "Patrick Trester",
   "license": "MIT",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "devDependencies": {
     "jest": "^25.0.0",
     "browser-env": "^3.2.6",
