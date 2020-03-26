@@ -52,6 +52,7 @@ function crelm (elemAttr) {
     else if (typeof elemAttr[key] === 'object' && elemAttr.deepClone) elem[key] = deepClone({}, elemAttr[key]);
     else elem[key] = elemAttr[key];
   }
+  if (typeof elem.oncreate === 'function') elem.oncreate(elem)
   return elem;
 
   function deepClone(obj1, obj2) {

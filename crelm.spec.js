@@ -118,3 +118,8 @@ test('Should make append a child to a parent by string id:', () => {
   let child = crelm({parent: 'test'})
   expect(parent.firstChild).toBe(child)
 })
+
+test('Should fire oncreate(elem) after creation:', () => {
+  let elem = crelm({created: false, oncreate: e => e.created = true})
+  expect(elem.created).toBe(true)
+})

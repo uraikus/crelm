@@ -56,6 +56,9 @@ crelm({
     'a text node', // Creates a textNode
     {tag: 'span', text: 'Greetings'}, // <span>Greetings</span>
     div, // Appends child to element
+    {oncreate: element => {
+      doSomethingToElement(element)
+    }}
   ]
 })
 ```
