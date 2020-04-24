@@ -55,9 +55,8 @@ test('Create an element with styles:', () => {
   expect(div.style.fontWeight).toBe('bold')
 })
 
-test('Create element with a string:', () => {
-  let span = crelm('SPAN')
-  expect(span.tagName).toBe('SPAN')
+test('Expect error to be thrown when not using an object:', () => {
+  expect(() => crelm('SPAN')).toThrowError()
 })
 
 test('Use parentElement instead:', () => {
@@ -122,4 +121,37 @@ test('Should make append a child to a parent by string id:', () => {
 test('Should fire oncreate(elem) after creation:', () => {
   let elem = crelm({created: false, oncreate: e => e.created = true})
   expect(elem.created).toBe(true)
+})
+
+test('Method toJSON should return proper JSON:', () => {
+  let elem = crelm({
+    tag: 'input',
+    value: 'all the data',
+    placeholder: 'enter the data',
+    dataset: {
+      test: true
+    },
+    style: {
+      fontSize: 'large',
+      color: 'blue'
+    }
+  })
+  let json = elem.toJSON()
+  expect(json.tagName).toBe('INPUT')
+  expect(json.value).toBe('all the data')
+  expect(json.placeholder).toBe('enter the data')
+  expect(json.dataset.test).toBe('true')
+  expect(typeof json.style).toBe('string')
+})
+
+test('toJSON should save children:', () => {
+  let elem = crelm({html: '<b>test</b> test'})
+  expect(elem.childNodes.length).toBe(2)
+  expect(elem.toJSON().children[0].tagName).toBe('B')
+})
+
+test('toJSON selectedIndex and reapply:', () => {
+  let elem = crelm({tag: 'select', children: [{tag: 'option'}, {tag: 'option'}], selectedIndex: 1})
+  let elem2 = crelm(elem.toJSON(elem))
+  expect(elem2.selectedIndex).toBe(1)
 })
