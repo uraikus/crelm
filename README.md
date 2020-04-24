@@ -62,66 +62,30 @@ crelm({
   ]
 })
 ```
-Styles and dataset will always be deep cloned:
+Your elements can then be turned back into JSON with the toJSON method:
 ```js
-test('Create an element with styles:', () => {
-  let div = crelm({
-    style: {
-      fontWeight: 'bold'
-    }
-  })
-  expect(div.style.fontWeight).toBe('bold')
-})
-```
-Crelm works great with [crease](https://www.npmjs.com/package/crease) for native javascript componentization:
-```js
-import crelm from 'crelm'
-import crease from 'crease'
-
-var createdCSSElement = crease({
-  '#sample': {
-    border: '1px solid black',
-    padding: '5px',
-    boxShadow: '3px 3px 5px black',
-    a: {
-      textDecoration: 'none',
-      color: 'blue',
-      cursor: 'pointer'
-    }
+let elem = crelm({
+  tag: 'input',
+  value: 'all the data',
+  placeholder: 'enter the data',
+  dataset: {
+    test: true
+  },
+  style: {
+    fontSize: 'large',
+    color: 'blue'
   }
 })
-
-var createdDOMElement = crelm({
-  id: 'sample',
-  parent: document.body,
-  children: [
-    'My Links:',
-    {tag: 'a', text: 'My Website', href: 'https://<whatever>.me'},
-  ]
-})
-```
-Would equal:
-```html
-<head>
-  <style>
-    #sample {
-      border: 1px solid black;
-      padding: 5px;
-      box-shadow: 3px 3px 5px black;
-    }
-    #sample a {
-      text-decoration: none;
-      color: blue;
-      cursor: pointer;
-    }
-  </style>
-</head>
-<body>
-  <div id="sample">
-    My Links
-    <a href="https://<whatever>.me">My Website</a>
-  </div>
-</body>
+elem.toJSON() // would return the following:
+{
+  tagName: 'INPUT',
+  value: 'all the data',
+  placeholder: 'enter the data',
+  dataset: {
+    test: 'true' // dataset values are converted to strings
+  },
+  style: 'font-size: large; color: blue;' // notice type conversion here.
+}
 ```
 Abbreviations:
 ```
@@ -131,3 +95,9 @@ Abbreviations:
   html === innerHTML
   text === innerText
 ```
+# Changelog
+* V4.0.0
+  - Created changelog
+  - Added the toJSON method
+  - In crelm(attr) the attr must be an object or falsy.
+  - The style attribute can now be a string.
