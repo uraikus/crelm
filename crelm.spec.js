@@ -155,3 +155,13 @@ test('toJSON selectedIndex and reapply:', () => {
   let elem2 = crelm(elem.toJSON(elem))
   expect(elem2.selectedIndex).toBe(1)
 })
+
+test('String style should compute:', () => {
+  let elem = crelm({style: 'font-weight: bold'})
+  expect(elem.style.fontWeight).toBe('bold')
+})
+
+test('attr should translate to attributes:', () => {
+  let elem = crelm({attr: {max: '2'}})
+  expect(elem.getAttribute('max')).toBe('2')
+})
