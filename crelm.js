@@ -50,10 +50,12 @@ function crelm (elemAttr) {
   for (var key in elemAttr) {
     if (['parent', 'parentElement', 'tagName', 'tag', 'deepClone', 'children'].indexOf(key) !== -1) continue;
     else if ((key === 'style' && typeof elemAttr[key] === 'object') || key === 'dataset') deepClone(elem[key], elemAttr[key]);
+    else if (key === 'style') elem.setAttribute('style', elemAttr.style);
+    else if (key === 'attr' && typeof elemAttr[key] === 'object') setAttributes(elem, elemAttr[key]);
     else if (typeof elemAttr[key] === 'object' && elemAttr.deepClone) elem[key] = deepClone({}, elemAttr[key]);
     else elem[key] = elemAttr[key];
   }
-  if (typeof elem.oncreate === 'function') elem.oncreate(elem)
+  if (typeof elem.oncreate === 'function') elem.oncreate(elem);
   return elem;
 
   function deepClone(obj1, obj2) {
@@ -62,6 +64,11 @@ function crelm (elemAttr) {
       else obj1[key] = obj2[key];
     }
     return obj1;
+  }
+  function setAttributes(elem, attributes) {
+    for (var attr in attributes) {
+      elem.setAttribute(attr, attributes[attr]);
+    };
   }
 }
 
