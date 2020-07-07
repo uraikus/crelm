@@ -1,14 +1,14 @@
 crelm (createElement)
 ==
-The fully tested browser utility that supers the document.createElement function.
+The zero-dependency, fully tested browser utility that supers the document.createElement function.
 
-Being exceptionally small (< 3kb), yet makes componentization so much easier!
+Crelm is exceptionally small (< 3kb) and makes componentization so much easier!
 
 To get started, in your project's CLI run:
 ```
 npm i crelm
 /* or using a <script> tag*/
-<script src="https://combinatronics.com/uraikus/crelm/master/browser/v4.0.js"></script>
+<script src="https://combinatronics.com/uraikus/crelm/master/browser/v6.0.js"></script>
 ```
 crelm gives the additional capability to utilize the argument as an object:
 ```js
@@ -36,10 +36,30 @@ crelm({
     'a text node', // Creates a textNode
     {tag: 'span', text: 'Greetings'}, // <span>Greetings</span>
     div, // Appends child to element
+    conditionalElement ? {tag: 'Hello!'} : false,
     {oncreate: element => {
       doSomethingToElement(element)
     }}
   ]
+})
+```
+Easy to update components on data changes:
+```js
+import {state} from './state'
+
+ondata = e => {
+  // By default, this element will be updated to match or created if it doesn't exist
+  crelm({id: 'test', style: {display: state.show}, parent: elem, text: e.data})
+}
+```
+The second argument can pass options:
+```js
+// defaults
+crelm({}, {
+  deepClone: false, // Wether objects in the attribute argument will be stored as references or new objects. True === new Object()
+  replaceElement: false, // Wether to remove the old and create a new reference.
+  alwaysInsert: false, // Overides the update procedure.
+  mergeChanges: false // When true, children, arguments, dataset, and style won't be reset on each update.
 })
 ```
 Your elements can then be turned back into JSON with the toJSON method:
@@ -75,27 +95,6 @@ let elem = crelm({
 })
 elem.outerHTML // <input max=5 min=2 />
 ```
-Additionally you can use the deepClone attribute if you want to deep clone objects:
-```js
-let myObj = {
-  deepTest: true,
-  deeperClone: {
-    test: true
-  }
-}
-let div = crelm({test: myObj, deepClone: true}) // Default tagName is "DIV"
-let div2 = crelm({test: myObj})
-expect(div.test.deepTest).toBe(true)
-expect(div2.test.deepTest).toBe(true)
-expect(div.test.deeperClone.test).toBe(true)
-expect(div2.test.deeperClone.test).toBe(true)
-myObj.deepTest = false
-myObj.deeperClone.test = false
-expect(div.test.deepTest).toBe(true)
-expect(div2.test.deepTest).toBe(false)
-expect(div.test.deeperClone.test).toBe(true)
-expect(div2.test.deeperClone.test).toBe(false)
-```
 Abbreviations/aliases:
 ```
   tag === tagName
@@ -105,6 +104,10 @@ Abbreviations/aliases:
   text === innerText
 ```
 # Changelog
+* V6.0.0
+  - **Added:** if an element already exists with the id, it will instead modify the pre-existing one.
+  - **Added:** options argument with alwaysInsert, replaceElement, mergeChanges, and deepClone.
+  - **Changed:** deepClone is now in the options argument, not the attributes argument.
 * V5.0.0
   - **Fixed:** Style attribute now converts when string.
   - **Added:** The ('attr': Object) attribute will now setAttributes via key/value.
