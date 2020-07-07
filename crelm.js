@@ -1,40 +1,58 @@
-function crelm (elemAttr) {
+function crelm (elemAttr, options) {
+  options = options || {replaceElement: false, deepClone: false, alwaysInsert: false, mergeChanges: false}
   elemAttr = elemAttr || {};
-  if (typeof elemAttr !== 'object' && !Array.isArray(elemAttr)) throw new Error('crelm(elemAttr: Object), elemAttr should only be an object or falsy!');
+  if (typeof elemAttr !== 'object' && !Array.isArray(elemAttr)) throw new Error('crelm(elemAttr: Object, options: Object), elemAttr should only be an object or falsy!');
   var tagName = elemAttr.tagName || elemAttr.tag || 'div';
-  var elem = document.createElement(tagName);
+  var elem = document.getElementById(elemAttr.id);
+  var preExisted = elem && !options.alwaysInsert
+  if (elem && options.replaceElement) elem.remove();
+  if (elem && !options.alwaysInsert && !options.replaceElement && !options.mergeChanges) {
+    elem.innerHTML = '';
+    elem.style = '';
+    for (var index in elem.attributes) {
+      var attr = elem.attributes[index];
+      elem.removeAttribute(attr);
+    }
+    for (var key in elem.dataset) {
+      delete elem.dataset[key];
+    }
+  }
+  if (!elem || options.alwaysInsert || options.replaceElement) elem = document.createElement(tagName);
   elem.toJSON = toJSON
-  Object.defineProperty(elem, 'text', {
-    get: function(){
-        return this.innerText;
-    },
-    set: function(val){
-      this.innerText = val;
-    }
-  })
-  Object.defineProperty(elem, 'html', {
-    get: function(){
-        return this.innerHTML;
-    },
-    set: function(val){
-      this.innerHTML = val;
-    }
-  })
-  Object.defineProperty(elem, 'clss', {
-    get: function(){
-        return this.className;
-    },
-    set: function(val){
-      this.className = val;
-    }
-  })
+  if (!preExisted && !options.replaceElement) {
+    Object.defineProperty(elem, 'text', {
+      get: function(){
+          return this.innerText;
+      },
+      set: function(val){
+        this.innerText = val;
+      }
+    })
+    Object.defineProperty(elem, 'html', {
+      get: function(){
+          return this.innerHTML;
+      },
+      set: function(val){
+        this.innerHTML = val;
+      }
+    })
+    Object.defineProperty(elem, 'clss', {
+      get: function(){
+          return this.className;
+      },
+      set: function(val){
+        this.className = val;
+      }
+    })
+  }
   var parent = elemAttr.parentElement  || elemAttr.parent || false;
   if (parent && parent.appendChild) parent.appendChild(elem);
   else if (typeof parent === 'string') document.getElementById(parent).appendChild(elem);
   if (elemAttr.children) {
     for (var x = 0; x < elemAttr.children.length; x++) {
       var child = elemAttr.children[x];
-      if (child instanceof Node) elem.appendChild(child);
+      if (!child) continue
+      else if (child instanceof Node) elem.appendChild(child);
       else if (typeof child === 'string') {
         var textNode = document.createTextNode(child);
         elem.appendChild(textNode);
@@ -48,11 +66,11 @@ function crelm (elemAttr) {
     }
   }
   for (var key in elemAttr) {
-    if (['parent', 'parentElement', 'tagName', 'tag', 'deepClone', 'children'].indexOf(key) !== -1) continue;
+    if (['parent', 'parentElement', 'tagName', 'tag', 'children'].indexOf(key) !== -1) continue;
     else if ((key === 'style' && typeof elemAttr[key] === 'object') || key === 'dataset') deepClone(elem[key], elemAttr[key]);
     else if (key === 'style') elem.setAttribute('style', elemAttr.style);
     else if (key === 'attr' && typeof elemAttr[key] === 'object') setAttributes(elem, elemAttr[key]);
-    else if (typeof elemAttr[key] === 'object' && elemAttr.deepClone) elem[key] = deepClone({}, elemAttr[key]);
+    else if (typeof elemAttr[key] === 'object' && options.deepClone) elem[key] = deepClone({}, elemAttr[key]);
     else elem[key] = elemAttr[key];
   }
   if (typeof elem.oncreate === 'function') elem.oncreate(elem);
@@ -68,7 +86,7 @@ function crelm (elemAttr) {
   function setAttributes(elem, attributes) {
     for (var attr in attributes) {
       elem.setAttribute(attr, attributes[attr]);
-    };
+    }
   }
 }
 

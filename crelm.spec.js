@@ -27,7 +27,7 @@ test('Create a deep clone:', () => {
       test: true
     }
   }
-  let div = crelm({test: myObj, deepClone: true})
+  let div = crelm({test: myObj}, {deepClone: true})
   let div2 = crelm({test: myObj})
   expect(div.test.deepTest).toBe(true)
   expect(div2.test.deepTest).toBe(true)
@@ -164,4 +164,41 @@ test('String style should compute:', () => {
 test('attr should translate to attributes:', () => {
   let elem = crelm({attr: {max: '2'}})
   expect(elem.getAttribute('max')).toBe('2')
+})
+
+test('falsy child should not be made or throw error:', () => {
+  let elem = crelm({children: [false, {}]})
+  expect(elem.children.length).toBe(1)
+})
+
+test('Two of the same id should be same reference: ', () => {
+  let elem = crelm({parent: document.body, id: 'test', html: 'hello', dataset: {test: 'true'}})
+  let elemTwo = crelm({parent: document.body, id: 'test'})
+  expect(document.body.children.length).toBe(1)
+  expect(elem === elemTwo).toBe(true)
+  expect(elemTwo.innerHTML).toBe('')
+  expect(elemTwo.dataset.test).toBe(undefined)
+})
+
+test('mergeChanges should merge the elements: ', () => {
+  let elem = crelm({parent: document.body, id: 'test', html: 'hello'})
+  let elemTwo = crelm({parent: document.body, id: 'test', world: true}, {mergeChanges: true})
+  expect(elem).toBe(elemTwo)
+  expect(elem.innerHTML).toBe('hello')
+  expect(elem.world).toBe(true)
+})
+
+test('replaceElement should remove old reference:' , () => {
+  let elem = crelm({parent: document.body, id: 'test', html: 'hello'})
+  let elemTwo = crelm({parent: document.body, id: 'test'}, {replaceElement: true})
+  expect(document.body.children.length).toBe(1)
+  expect(document.body.querySelector('#test').innerHTML).toBe('')
+  expect(elem === elemTwo).toBe(false)
+})
+
+test('alwaysInsert should contain both references:', () => {
+  let elem = crelm({parent: document.body, id: 'test'})
+  let elemTwo = crelm({parent: document.body, id: 'test'}, {alwaysInsert: true})
+  expect(document.body.children.length).toBe(2)
+  expect(elem === elemTwo).toBe(false)
 })
