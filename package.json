@@ -1,7 +1,7 @@
 {
   "name": "crelm",
   "main": "crelm-min.js",
-  "description": "The zero-dependency, fully tested browser utility that supers the document.createElement function.",
+  "description": "The exceptionally small (< 3kb), super fast, independent, fully tested, and modular javascript library that simplifies and expedites page work flows.",
   "author": "Patrick Trester",
   "license": "MIT",
   "keywords": [
@@ -14,7 +14,7 @@
     "zero-dependencies",
     "simple"
   ],
-  "version": "6.0.0",
+  "version": "6.0.1",
   "devDependencies": {
     "jest": "^25.0.0",
     "browser-env": "^3.2.6",

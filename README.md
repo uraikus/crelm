@@ -1,8 +1,6 @@
 crelm (createElement)
 ==
-The zero-dependency, fully tested browser utility that supers the document.createElement function.
-
-Crelm is exceptionally small (< 3kb) and makes componentization so much easier!
+The exceptionally small (< 3kb), super fast, independent, fully tested, and modular javascript library that simplifies and expedites page work flows.
 
 To get started, in your project's CLI run:
 ```
@@ -103,7 +101,15 @@ Abbreviations/aliases:
   html === innerHTML
   text === innerText
 ```
+If you like this package, also check out the following:
+- [crelmstat](https://www.npmjs.com/package/crelmstat) for state management
+- [crelm-popup](https://www.npmjs.com/package/crelm-popup) for a super simple popup
+- [crease](https://www.npmjs.com/package/crease) for modular css
 # Changelog
+
+* V6.0.1
+  - **Added:** README.md with references to other products.
+  - **Changed:** package description.
 * V6.0.0
   - **Added:** if an element already exists with the id, it will instead modify the pre-existing one.
   - **Added:** options argument with alwaysInsert, replaceElement, mergeChanges, and deepClone.
