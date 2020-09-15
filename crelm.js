@@ -6,10 +6,15 @@ function crelm(elemAttr, options) {
     mergeChanges: false
   };
   elemAttr = elemAttr || {};
-  if (typeof elemAttr !== "object" && !Array.isArray(elemAttr))
+  if (typeof elemAttr !== "object")
     throw new Error(
       "crelm(elemAttr: Object, options: Object), elemAttr should only be an object or falsy!"
     );
+  else if (Array.isArray(elemAttr)) {
+    var elem = document.createDocumentFragment();
+    makeDescendants(elem, elemAttr);
+    return elem;
+  }
   var tagName = elemAttr.tagName || elemAttr.tag || "div";
   var elem = document.getElementById(elemAttr.id);
   var preExisted = elem && !options.alwaysInsert;
@@ -30,7 +35,9 @@ function crelm(elemAttr, options) {
       delete elem.dataset[key];
     }
   }
-  if (!elem || options.alwaysInsert || options.replaceElement)
+  if (/^frag$|^fragment$/i.test(tagName))
+    elem = document.createDocumentFragment();
+  else if (!elem || options.alwaysInsert || options.replaceElement)
     elem = document.createElement(tagName);
   elem.toJSON = toJSON;
   if (!preExisted && !options.replaceElement) {
@@ -63,27 +70,30 @@ function crelm(elemAttr, options) {
   if (parent && parent.appendChild) parent.appendChild(elem);
   else if (typeof parent === "string")
     document.getElementById(parent).appendChild(elem);
-  if (elemAttr.children) {
-    for (var x = 0; x < elemAttr.children.length; x++) {
-      var child = elemAttr.children[x];
-      if (!child) continue;
-      else if (child instanceof Node) elem.appendChild(child);
-      else if (typeof child === "string") {
-        var textNode = document.createTextNode(child);
-        elem.appendChild(textNode);
-      } else if (typeof child === "object") {
-        var childElement = crelm(child);
-        elem.appendChild(childElement);
-      } else {
-        var textNode = document.createTextNode(child.toString());
-        elem.appendChild(textNode);
-      }
+  if (elemAttr.children) makeDescendants(elem, elemAttr.children);
+  var shadow = elemAttr.shadow;
+  if (typeof shadow === "object") {
+    if (Array.isArray(shadow)) {
+      var shadowRoot = elem.attachShadow({ mode: "open" });
+      makeDescendants(shadowRoot, shadow);
+    } else {
+      var shadowRoot = elem.attachShadow({
+        mode: shadow.closed ? "closed" : "open"
+      });
+      if (Array.isArray(shadow.children))
+        makeDescendants(shadowRoot, shadow.children);
     }
   }
   for (var key in elemAttr) {
     if (
-      ["parent", "parentElement", "tagName", "tag", "children"].indexOf(key) !==
-      -1
+      [
+        "parent",
+        "parentElement",
+        "tagName",
+        "tag",
+        "children",
+        "shadow"
+      ].indexOf(key) !== -1
     )
       continue;
     else if (
@@ -115,6 +125,24 @@ function crelm(elemAttr, options) {
   }
 }
 
+function makeDescendants(elem, children) {
+  for (var x = 0; x < children.length; x++) {
+    var child = children[x];
+    if (!child) continue;
+    else if (child instanceof Node) elem.appendChild(child);
+    else if (typeof child === "string") {
+      var textNode = document.createTextNode(child);
+      elem.appendChild(textNode);
+    } else if (typeof child === "object") {
+      var childElement = crelm(child);
+      elem.appendChild(childElement);
+    } else {
+      var textNode = document.createTextNode(child.toString());
+      elem.appendChild(textNode);
+    }
+  }
+}
+
 function toJSON(element) {
   var elem = element instanceof Element ? element : this;
   var json = { dataset: {}, children: [] };
@@ -131,7 +159,7 @@ function toJSON(element) {
     else json.children.push(node.textContent);
   }
   json.tagName = elem.tagName;
-  if (/input/i.test(elem.tagName)) json.value = elem.value;
+  if (/^input$/i.test(elem.tagName)) json.value = elem.value;
   else if (typeof elem.selectedIndex === "number")
     json.selectedIndex = elem.selectedIndex;
   return json;

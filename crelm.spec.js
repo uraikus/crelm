@@ -202,3 +202,45 @@ test('alwaysInsert should contain both references:', () => {
   expect(document.body.children.length).toBe(2)
   expect(elem === elemTwo).toBe(false)
 })
+
+test('make document fragment:', () => {
+  let f = crelm([
+    [{tag: 'i', html: 'Hello fragment!'}],
+    {tag: 'b', html: 'Hello world!'}
+  ])
+  let fTwo = crelm({
+    tag: 'fragment'
+  })
+  expect(f.nodeName).toBe('#document-fragment')
+  expect(f.firstChild.tagName).toBe('I')
+  expect(fTwo.nodeName).toBe('#document-fragment')
+})
+
+test('make open shadow DOM:', () => {
+  let s = crelm({
+    shadow: [
+      {tag: 'b', html: 'Hello!'}
+    ]
+  })
+  expect(s.shadowRoot.nodeName).toBe('#document-fragment')
+  expect(s.shadowRoot.firstChild.html).toBe('Hello!')
+})
+
+test('make closed shadow DOM:', () => {
+  let s = crelm({
+    shadow: {
+      closed: true,
+      children: [
+        {tag: 'b', text: 'Hello!'}
+      ]
+    }
+  })
+  expect(s.shadowRoot).toBe(null)
+})
+
+test('make empty shadow DOM:', () => {
+  let s = crelm({
+    shadow: {}
+  })
+  expect(s.shadowRoot.nodeName).toBe('#document-fragment')
+})
