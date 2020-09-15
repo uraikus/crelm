@@ -14,7 +14,7 @@
     "zero-dependencies",
     "simple"
   ],
-  "version": "6.0.1",
+  "version": "7.0.0",
   "devDependencies": {
     "jest": "^25.0.0",
     "browser-env": "^3.2.6",

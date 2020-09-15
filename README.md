@@ -1,12 +1,12 @@
 crelm (createElement)
 ==
-The exceptionally small (< 3kb), super fast, independent, fully tested, and modular javascript library that simplifies and expedites page work flows.
+The exceptionally small (3.9kb), super fast, independent, fully tested, and modular javascript library that simplifies and expedites page work flows.
 
 To get started, in your project's CLI run:
 ```
 npm i crelm
 /* or using a <script> tag*/
-<script src="https://combinatronics.com/uraikus/crelm/master/browser/v6.0.js"></script>
+<script src="https://combinatronics.com/uraikus/crelm/master/browser/v7.0.js"></script>
 ```
 crelm gives the additional capability to utilize the argument as an object:
 ```js
@@ -57,8 +57,46 @@ crelm({}, {
   deepClone: false, // Wether objects in the attribute argument will be stored as references or new objects. True === new Object()
   replaceElement: false, // Wether to remove the old and create a new reference.
   alwaysInsert: false, // Overides the update procedure.
-  mergeChanges: false // When true, children, arguments, dataset, and style won't be reset on each update.
+  mergeChanges: false // When true, children, arguments, dataset, and style won't be reset on each update
 })
+```
+You can create a document fragment by using an array for the first argument or using the fragment tagName:
+```js
+  document.body.appendChild(
+    crelm([
+      {tag: 'b', text: 'Hello World!'}
+    ])
+  )
+  // or
+  crelm({
+    parent: document.body,
+    tag: 'frag', // or 'fragment'
+    children: [
+      {tag: 'b', text: 'Hello World!'}
+    ]
+  })
+  // also works for children elements
+  crelm({children: [
+    {tag: 'h1', text: 'Next sibling fragment:'},
+    ['fragment','full','of','textNodes', {tag:'b', text: '!'}]
+  ]})
+```
+You can utilize the shadow dom with the shadow attribute:
+```js
+  crelm({
+    shadow: [
+      {tag:'b', text: 'Shadow child.'}
+    ]
+  })
+  // or
+  crelm({
+    shadow: {
+      closed: true, // defaults to false
+      children: [
+        {tag: 'b', text: 'Shadow child.'}
+      ]
+    }
+  })
 ```
 Your elements can then be turned back into JSON with the toJSON method:
 ```js
@@ -94,7 +132,8 @@ let elem = crelm({
 elem.outerHTML // <input max=5 min=2 />
 ```
 Abbreviations/aliases:
-```
+```js
+  shadow === shadowRoot // Automatically attaches Shadow when an array of elements.
   tag === tagName
   parent === parentElement
   clss === className
@@ -107,6 +146,9 @@ If you like this package, also check out the following:
 - [crease](https://www.npmjs.com/package/crease) for modular css
 # Changelog
 
+* V7.0.0
+  - **Added:** Document fragments by using the 'frag' || 'fragment' tag or making the first argument an array.
+  - **Added:** ShadowDOM can be utilized like the children argument.
 * V6.0.1
   - **Added:** README.md with references to other products.
   - **Changed:** package description.
